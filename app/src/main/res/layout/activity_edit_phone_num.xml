@@ -4,6 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
     tools:context=".EditPhoneNumActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이름" />
+
+    <EditText
+        android:id="@+id/name_Edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="저장 할 이름 입력"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="핸드폰 번호" />
+
+    <EditText
+        android:id="@+id/phoneNum_Edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="상대방 전화번호 입력"
+        android:inputType="phone"
+        android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="생일" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/birthDay_Txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="생년월일을 선택하세요" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/selectBirth_Btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="선택하기" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/ok_Btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="등록 완료" />
 
 </LinearLayout>
