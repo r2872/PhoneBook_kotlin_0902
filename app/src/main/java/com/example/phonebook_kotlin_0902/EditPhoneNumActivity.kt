@@ -4,13 +4,13 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.widget.DatePicker
 import kotlinx.android.synthetic.main.activity_edit_phone_num.*
-import java.time.Year
+import java.text.SimpleDateFormat
 import java.util.*
 
 class EditPhoneNumActivity : BaseActivity() {
 
     //    선택된 날짜의 기본값 : 화면을 연 일시.
-    val mSelectedDate = Calendar.getInstance()
+    private val mSelectedDate = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +29,14 @@ class EditPhoneNumActivity : BaseActivity() {
                 override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
 
 //            날짜가 선택되면 실행해줄 코드. (년 / 월 / 일 세개의 Int 를 가지고 처리하자.
+                    mSelectedDate.set(year, month, dayOfMonth)
+
 //            날짜 선택이 (Calendar) 완료되면 -> textView 에 반영. (String 으로 반영)
 //            Calendar -> String 가공 : SimpleDateFormat
+//                    1996. 04. 17. 양식으로 가공
+                    val sdf = SimpleDateFormat("yyyy. MM. dd.")
+
+                    birthDay_Txt.text = sdf.format(mSelectedDate.time)
                 }
             }
 
