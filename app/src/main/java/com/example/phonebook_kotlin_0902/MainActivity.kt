@@ -72,6 +72,9 @@ class MainActivity : BaseActivity() {
         val fr = FileReader(myFile)
         val br = BufferedReader(fr)
 
+//        1991-05-05 String 을 분석하는데 쓰일 양식.
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+
         while (true) {
 
 //            읽어온 내용이 없다면 -> 종료. (null)
@@ -82,6 +85,12 @@ class MainActivity : BaseActivity() {
 
 //            이름, 폰번만 우선 폰번데이터로.
             val phoneNumData = PhoneNumData(infos[0], infos[1])
+
+//            phoneNumData 의 생년월일을, 실제 입력한 생년월일로.
+//            "1996-04-17" 로 분리된 String 기반으로 => phoneNumData 의 일자로 저장. => (String -> Calendar)
+//            SimpleDateFormat 의 parse 기능 활용.
+
+            phoneNumData.birthDay.time = sdf.parse(infos[2])
 
 //            만들어진 폰번 데이터 목록에 추가.
             mPhoneNumList.add(phoneNumData)
