@@ -36,6 +36,13 @@ class MainActivity : BaseActivity() {
         setupEvents()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+//        파일에서 폰번을 화면에 올때마다 새로 읽어주자.
+        readPhoneBookFromFile()
+    }
+
     override fun setValues() {
 
 //    임시방편: 직접 리스트에 데이터 객체 추가.
@@ -43,14 +50,15 @@ class MainActivity : BaseActivity() {
 //        mPhoneNumList.add(PhoneNumData("테스트2", "010-2222-2222"))
 //        mPhoneNumList.add(PhoneNumData("테스트3", "010-3333-2222"))
 
-//        수정방안 -> 파일을 불러와서, 그 내용을 읽고 -> PhoneNumDate() 로 변환 -> 목록에 추가.
 
-        readPhoneBookFromFile()
 //        어댑터 초기화.
         mAdapter = PhoneNumAdapter(mContext, R.layout.phone_num_list_item, mPhoneNumList)
 
 //        리스트뷰의 어댑터로 연결
         phoneNumListView.adapter = mAdapter
+
+        //        수정방안 -> 파일을 불러와서, 그 내용을 읽고 -> PhoneNumDate() 로 변환 -> 목록에 추가.
+        readPhoneBookFromFile()
 
     }
 
@@ -75,6 +83,10 @@ class MainActivity : BaseActivity() {
 //        1991-05-05 String 을 분석하는데 쓰일 양식.
         val sdf = SimpleDateFormat("yyyy-MM-dd")
 
+//        이 코드는 반복 실행되면 데이터가 누적으로 쌓인다.
+//        기존에 있던 폰번은 날리고 -> 새로 데이터 담아주자.
+        mPhoneNumList.clear()
+
         while (true) {
 
 //            읽어온 내용이 없다면 -> 종료. (null)
@@ -94,6 +106,13 @@ class MainActivity : BaseActivity() {
 
 //            만들어진 폰번 데이터 목록에 추가.
             mPhoneNumList.add(phoneNumData)
+
         }
+        br.close()
+        fr.close()
+
+//        목록에 내용물이 추가됨 -> ListView 도 인지해야함.
+        mAdapter.notifyDataSetChanged()
     }
+
 }
