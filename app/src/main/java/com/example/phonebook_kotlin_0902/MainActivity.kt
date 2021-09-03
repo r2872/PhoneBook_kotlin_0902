@@ -3,7 +3,9 @@ package com.example.phonebook_kotlin_0902
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import kotlinx.android.synthetic.main.activity_edit_phone_num.*
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.SimpleDateFormat
 
 class MainActivity : BaseActivity() {
 

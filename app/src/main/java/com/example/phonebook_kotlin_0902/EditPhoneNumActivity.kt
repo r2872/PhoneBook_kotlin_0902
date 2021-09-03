@@ -22,6 +22,22 @@ class EditPhoneNumActivity : BaseActivity() {
 
     override fun setValues() {
 
+        ok_Btn.setOnClickListener {
+
+//            1. 입력한 값들을 변수에 저장
+            val inputName = name_Edt.text.toString()
+            val inputPhoneNum = phoneNum_Edt.text.toString()
+
+//            생년월일 (Calendar) -> 1996-04-17 String => SimpleDateFormat
+            val sdf = SimpleDateFormat("yyyy-MM-dd")
+            val birthDayStr = sdf.format(mSelectedDate)
+
+//            2. 폰번 데이터 객체로 만들자. (클래스 추가)
+
+
+//            3. 해당 폰번을 -> "이름,폰번,생년월일" 양식으로 가공 -> 파일에 저장.
+        }
+
         selectBirth_Btn.setOnClickListener {
 
 //            달력처럼, 날짜 선택 팝업 출현 (안배운 부분)
@@ -37,6 +53,7 @@ class EditPhoneNumActivity : BaseActivity() {
                     val sdf = SimpleDateFormat("yyyy. MM. dd.")
 
                     birthDay_Txt.text = sdf.format(mSelectedDate.time)
+
                 }
             }
 
