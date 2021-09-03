@@ -2,10 +2,14 @@ package com.example.phonebook_kotlin_0902
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.widget.DatePicker
 import com.example.phonebook_kotlin_0902.datas.PhoneNumData
 import kotlinx.android.synthetic.main.activity_edit_phone_num.*
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,6 +47,8 @@ class EditPhoneNumActivity : BaseActivity() {
 //            3. 해당 폰번을 -> "이름,폰번,생년월일" 양식으로 가공 -> 파일에 저장.
             val saveStr = savePhoneNumData.getFileFormatData()
             Log.d("파일에 저장할 문장", saveStr)
+
+            savePhoneNumToFile(saveStr)
         }
 
         selectBirth_Btn.setOnClickListener {
@@ -84,5 +90,53 @@ class EditPhoneNumActivity : BaseActivity() {
     override fun setupEvents() {
 
 
+    }
+
+    //    문장을 넘겨받아서, 폰의 파일에 기록해주는 기능
+    fun savePhoneNumToFile(content: String) {
+
+//        (폰 내부의) 파일 경로 설정 -> 해당 경로에 파일 기록.
+
+//    SD 카드의 경로를 먼저 받아오자. + 우리 파일 저장 경로 설정 (/phoneBookData 폴더)
+        val mainFolder = File("${Environment.getExternalStorageDirectory()}/phoneBookData")
+
+//    그 폴더가 진짜 있나? 확인, 없으면 만들자.
+        var success = true
+//    해당 폴더 없으면 -> 새로 만들자
+        if (!mainFolder.exists()) {
+//        성공 여부 저장
+            success = mainFolder.mkdir()
+        }
+
+//    폴더가 만들어졌다면
+        if (success) {
+
+//        파일 이름만 따로 저장
+            val myFile = File("phoneNumData.txt")
+
+            if (!myFile.exists()) {
+
+//            파일이 아직 없다면 만들어주자.
+                success = myFile.mkdir()
+            }
+
+            if (success) {
+
+//            폴더 / 파일 모두 준비된 상태
+//            최종 경로 설정
+                val realFilePath = File(mainFolder, "phoneNumData.txt")
+
+                val fw = FileWriter(realFilePath)
+                val bw = BufferedWriter(fw)
+
+                bw.append(content)
+                bw.newLine()
+
+                bw.close()
+                fw.close()
+
+                Log.d("폰번 추가 성공", content)
+            }
+        }
     }
 }
