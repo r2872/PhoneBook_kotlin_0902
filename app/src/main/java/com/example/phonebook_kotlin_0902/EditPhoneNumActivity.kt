@@ -2,6 +2,7 @@ package com.example.phonebook_kotlin_0902
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.widget.DatePicker
 import com.example.phonebook_kotlin_0902.datas.PhoneNumData
 import kotlinx.android.synthetic.main.activity_edit_phone_num.*
@@ -31,7 +32,7 @@ class EditPhoneNumActivity : BaseActivity() {
 
 //            생년월일 (Calendar) -> 1996-04-17 String => SimpleDateFormat
             val sdf = SimpleDateFormat("yyyy-MM-dd")
-            val birthDayStr = sdf.format(mSelectedDate)
+//            val birthDayStr = sdf.format(mSelectedDate)
 
 //            2. 폰번 데이터 객체로 만들자. (클래스 추가)
             val savePhoneNumData = PhoneNumData(inputName, inputPhoneNum)
@@ -40,6 +41,8 @@ class EditPhoneNumActivity : BaseActivity() {
             savePhoneNumData.birthDay.time = mSelectedDate.time
 
 //            3. 해당 폰번을 -> "이름,폰번,생년월일" 양식으로 가공 -> 파일에 저장.
+            val saveStr = savePhoneNumData.getFileFormatData()
+            Log.d("파일에 저장할 문장", saveStr)
         }
 
         selectBirth_Btn.setOnClickListener {
