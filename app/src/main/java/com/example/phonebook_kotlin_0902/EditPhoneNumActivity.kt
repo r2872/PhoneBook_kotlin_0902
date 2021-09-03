@@ -96,7 +96,7 @@ class EditPhoneNumActivity : BaseActivity() {
     }
 
     //    문장을 넘겨받아서, 폰의 파일에 기록해주는 기능
-    fun savePhoneNumToFile(content: String) {
+    private fun savePhoneNumToFile(content: String) {
 
 //        파일 저장용 폴더에, phoneBook.txt 파일로 경로 설정.
         val myFile = File(filesDir, "phoneBook.txt")

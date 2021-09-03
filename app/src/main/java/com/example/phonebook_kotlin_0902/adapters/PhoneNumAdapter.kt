@@ -64,7 +64,7 @@ class PhoneNumAdapter(
         tempBirthDay.set(Calendar.YEAR, today.get(Calendar.YEAR))
 
 //        생일 - 오늘 => 10일 이내? => 두 날짜를 모두 숫자로 변경.
-        val diffInMillis = tempBirthDay.timeInMillis - today.timeInMillis
+        val diffInMillis = today.timeInMillis - tempBirthDay.timeInMillis
 
 //        1/1000 초 까지 계산된 시간차이를 => 날짜로 변환.
         val diffInDays = diffInMillis / 1000 / 60 / 60 / 24

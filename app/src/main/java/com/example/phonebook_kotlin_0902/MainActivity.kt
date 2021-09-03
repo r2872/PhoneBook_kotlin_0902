@@ -2,13 +2,14 @@ package com.example.phonebook_kotlin_0902
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.util.Log
+import android.widget.Toast
 import com.example.phonebook_kotlin_0902.adapters.PhoneNumAdapter
 import com.example.phonebook_kotlin_0902.datas.PhoneNumData
-import kotlinx.android.synthetic.main.activity_edit_phone_num.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.BufferedReader
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.FileReader
 import java.text.SimpleDateFormat
 
@@ -73,43 +74,54 @@ class MainActivity : BaseActivity() {
     }
 
     //    파일에서 폰번 읽어와서 -> 폰번목록에 추가.
-    fun readPhoneBookFromFile() {
+    private fun readPhoneBookFromFile() {
 
-        val myFile = File(filesDir, "phoneBook.txt")
+        try {
+            val myFile = File(filesDir, "phoneBook.txt")
 
-        val fr = FileReader(myFile)
-        val br = BufferedReader(fr)
+//            처음 깔았으면, phoneBook.txt 가 없을 예정 => 파일 읽어오기는 막아두자. (try catch 문 사용으로 없어도 됨)
+            if (!myFile.exists()) {
+                Log.d("파일없음", "아직 작성된 내용이 없습니다")
+                return
+            }
+
+            val fr = FileReader(myFile)
+            val br = BufferedReader(fr)
 
 //        1991-05-05 String 을 분석하는데 쓰일 양식.
-        val sdf = SimpleDateFormat("yyyy-MM-dd")
+            val sdf = SimpleDateFormat("yyyy-MM-dd")
 
 //        이 코드는 반복 실행되면 데이터가 누적으로 쌓인다.
 //        기존에 있던 폰번은 날리고 -> 새로 데이터 담아주자.
-        mPhoneNumList.clear()
+            mPhoneNumList.clear()
 
-        while (true) {
+            while (true) {
 
 //            읽어온 내용이 없다면 -> 종료. (null)
-            val line = br.readLine() ?: break
+                val line = br.readLine() ?: break
 
-            //            읽어온 line 을 => , 기준으로 분리
-            val infos = line.split(",")
+                //            읽어온 line 을 => , 기준으로 분리
+                val infos = line.split(",")
 
 //            이름, 폰번만 우선 폰번데이터로.
-            val phoneNumData = PhoneNumData(infos[0], infos[1])
+                val phoneNumData = PhoneNumData(infos[0], infos[1])
 
 //            phoneNumData 의 생년월일을, 실제 입력한 생년월일로.
 //            "1996-04-17" 로 분리된 String 기반으로 => phoneNumData 의 일자로 저장. => (String -> Calendar)
 //            SimpleDateFormat 의 parse 기능 활용.
 
-            phoneNumData.birthDay.time = sdf.parse(infos[2])
+                phoneNumData.birthDay.time = sdf.parse(infos[2])
 
 //            만들어진 폰번 데이터 목록에 추가.
-            mPhoneNumList.add(phoneNumData)
+                mPhoneNumList.add(phoneNumData)
 
+            }
+            br.close()
+            fr.close()
+        } catch (e: FileNotFoundException) {
+            Toast.makeText(mContext, "아직 데이터가 없습니다.", Toast.LENGTH_SHORT).show()
         }
-        br.close()
-        fr.close()
+
 
 //        목록에 내용물이 추가됨 -> ListView 도 인지해야함.
         mAdapter.notifyDataSetChanged()
