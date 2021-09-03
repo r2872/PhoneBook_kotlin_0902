@@ -95,48 +95,18 @@ class EditPhoneNumActivity : BaseActivity() {
     //    문장을 넘겨받아서, 폰의 파일에 기록해주는 기능
     fun savePhoneNumToFile(content: String) {
 
-//        (폰 내부의) 파일 경로 설정 -> 해당 경로에 파일 기록.
+//        파일 저장용 폴더에, phoneBook.txt 파일로 경로 설정.
+        val myFile = File(filesDir, "phoneBook.txt")
 
-//    SD 카드의 경로를 먼저 받아오자. + 우리 파일 저장 경로 설정 (/phoneBookData 폴더)
-        val mainFolder = File("${Environment.getExternalStorageDirectory()}/phoneBookData")
+        val fw = FileWriter(myFile, true)
+        val bw = BufferedWriter(fw)
 
-//    그 폴더가 진짜 있나? 확인, 없으면 만들자.
-        var success = true
-//    해당 폴더 없으면 -> 새로 만들자
-        if (!mainFolder.exists()) {
-//        성공 여부 저장
-            success = mainFolder.mkdir()
-        }
+        bw.append(content)
+        bw.newLine()
 
-//    폴더가 만들어졌다면
-        if (success) {
+        bw.close()
+        fw.close()
 
-//        파일 이름만 따로 저장
-            val myFile = File("phoneNumData.txt")
-
-            if (!myFile.exists()) {
-
-//            파일이 아직 없다면 만들어주자.
-                success = myFile.mkdir()
-            }
-
-            if (success) {
-
-//            폴더 / 파일 모두 준비된 상태
-//            최종 경로 설정
-                val realFilePath = File(mainFolder, "phoneNumData.txt")
-
-                val fw = FileWriter(realFilePath)
-                val bw = BufferedWriter(fw)
-
-                bw.append(content)
-                bw.newLine()
-
-                bw.close()
-                fw.close()
-
-                Log.d("폰번 추가 성공", content)
-            }
-        }
+        Log.d("파일추가", content)
     }
 }
